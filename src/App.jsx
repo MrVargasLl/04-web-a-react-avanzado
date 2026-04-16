@@ -1,6 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
+import axios from 'axios'
 import * as yup from 'yup'
+import { useState } from 'react'
 
 const schema = yup.object({
   userInput: yup
@@ -14,8 +16,25 @@ export const App = () => {
     resolver: yupResolver(schema)
   })
 
-  const handlePregunta = (data) => {
+  // Estado que guarda la respuesta de gemma
+  const [response, setResponse] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const handlePregunta = async (data) => {
     console.log(data)
+    setLoading(true)
+    try {
+      const res = await axios.post('http://localhost:11434/api/generate', {
+        model: 'gemma2',
+        prompt: data.userInput,
+        stream: false
+      })
+      setResponse(res.data.response)
+    } catch (error) {
+      console.error('Error:', error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -34,6 +53,10 @@ export const App = () => {
         )}
         <button className='w-full py-2 rounded transition cursor-pointer bg-blue-600 text-white hover:bg-blue-700'>Preguntar</button>
       </form>
+      <div>
+        {/* {response && <p>{response}</p>} */}
+        <p>{loading ? 'Generando respuesta...' : response}</p>
+      </div>
     </>
   )
 }
