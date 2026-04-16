@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import * as yup from 'yup'
 import { useState } from 'react'
-import { useUser } from './hooks/useUser'
+import { useReducer } from 'react'
 
 const schema = yup.object({
   userInput: yup
@@ -11,6 +11,14 @@ const schema = yup.object({
     .min(3, 'El mensaje debe tener mínimo 3 caracteres')
     .required('El mensaje es obligatorio')
 })
+
+const initialState = {
+  messages: []
+}
+
+const chatReducer = (state, action) => {
+
+}
 
 export const App = () => {
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -20,7 +28,7 @@ export const App = () => {
   // Estado que guarda la respuesta de gemma
   const [response, setResponse] = useState('')
   const [loading, setLoading] = useState(false)
-  const { user } = useUser()
+  const [state, dispatch] = useReducer(chatReducer, initialState)
 
   const handlePregunta = async (data) => {
     console.log(data)
@@ -82,7 +90,7 @@ export const App = () => {
 
         </div>
       </div>
-      <p>{user ? user.name : 'Loading...'}</p>
+
     </>
   )
 }
