@@ -12,7 +12,6 @@ export const useOllama = () => {
         stream: false,
       })
 
-     
       return res
     } catch (error) {
       console.error('Error:', error)

@@ -13,12 +13,15 @@ const chatReducer = (state, action) => {
       console.log('Agregando mensaje...')
       console.log(state)
       return { ...state, messages: [...state.messages, action.payload] }
+
+    case 'SET_LOADING':
+      return { ...state, loading: action.payload }
+
     default:
       return state
   }
 }
-
-// dispatch({ type: 'ADD_MESSAGE', payload: { from: 'user', text: userPrompt } })
+// 
 // dispatch({ type: 'ADD_MESSAGE', payload: { from: 'bot', text: res.data.response } })
 
 // 2. Crear proveedor
