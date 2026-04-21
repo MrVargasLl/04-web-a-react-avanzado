@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
-import axios from 'axios'
+
 import * as yup from 'yup'
 import { useState } from 'react'
 import { useReducer } from 'react'
@@ -12,21 +12,6 @@ const schema = yup.object({
     .required('El mensaje es obligatorio')
 })
 
-const initialState = {
-  messages: []
-}
-
-const chatReducer = (state, action) => {
-  switch (action.type) {
-    case 'ADD_MESSAGE':
-      console.log('Agregando mensaje...')
-      console.log(state)
-      return { ...state, messages: [...state.messages, action.payload] }
-    default:
-      return state
-  }
-}
-
 export const App = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: yupResolver(schema)
@@ -34,28 +19,14 @@ export const App = () => {
 
   // Estado que guarda la respuesta de gemma
   const [response, setResponse] = useState('')
-  const [loading, setLoading] = useState(false)
+
   const [state, dispatch] = useReducer(chatReducer, initialState)
 
   const handlePregunta = async (data) => {
     console.log(data)
-    dispatch({ type: 'ADD_MESSAGE', payload: { from: 'user', text: data.userInput } })
+
     setLoading(true)
     reset()
-    try {
-      const res = await axios.post('http://localhost:11434/api/generate', {
-        model: 'gemma2',
-        prompt: data.userInput,
-        stream: false
-      })
-      setResponse(res.data.response)
-
-      dispatch({ type: 'ADD_MESSAGE', payload: { from: 'bot', text: res.data.response } })
-    } catch (error) {
-      console.error('Error:', error)
-    } finally {
-      setLoading(false)
-    }
   }
 
   return (
