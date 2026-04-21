@@ -21,7 +21,7 @@ const chatReducer = (state, action) => {
       return state
   }
 }
-// 
+//
 // dispatch({ type: 'ADD_MESSAGE', payload: { from: 'bot', text: res.data.response } })
 
 // 2. Crear proveedor
