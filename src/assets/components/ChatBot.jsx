@@ -3,6 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useContext } from 'react'
 import { ChatContext } from '../context/ChatContext'
+import { useOllama } from '../../hooks/useOllama'
 
 const schema = yup.object({
   userInput: yup
@@ -17,14 +18,24 @@ export const ChatBot = () => {
   })
 
   const { state, dispatch } = useContext(ChatContext)
-  const { sendMessage, loading } = useOllama()
+  const { sendMessage } = useOllama()
 
   const handlePregunta = async (data) => {
     console.log(data)
-    dispatch({ type: 'ADD_MESSAGE', payload: { from: 'user', text: userPrompt } })
-    dispatch({ type: 'SET_LOADING', payload: true })
-    setLoading(true)
+
+    dispatch({ type: 'ADD_MESSAGE', payload: { from: 'user', text: data.userInput } })
     reset()
+
+    dispatch({ type: 'SET_LOADING', payload: true })
+
+    try {
+      const res = await sendMessage(data.userInput)
+      dispatch({ type: 'ADD_MESSAGE', payload: { from: 'bot', text: res.data.response } })
+    } catch (error) {
+      dispatch({ type: 'ADD_MESSAGE', payload: { from: 'bot', text: 'Error en respuesta' } })
+    } finally {
+      dispatch({ type: 'SET_LOADING', payload: false })
+    }
   }
 
   return (
@@ -50,7 +61,7 @@ export const ChatBot = () => {
               </p>
             ))}
 
-            {loading && <p className='italic text-gray-500'>Generando respuesta...</p>}
+            {state.loading && <p className='italic text-gray-500'>Generando respuesta...</p>}
           </div>
 
           {/* Form */}

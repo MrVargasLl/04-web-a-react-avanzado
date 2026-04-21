@@ -1,10 +1,10 @@
-import { useForm } from 'react-hook-form'
-
-import { useState } from 'react'
-import { useReducer } from 'react'
+import { ChatBot } from './assets/components/ChatBot'
+import { ChatProvider } from './assets/context/ChatContext'
 
 export const App = () => {
   return (
-    <h1>ChatBot</h1>
+    <ChatProvider>
+      <ChatBot />
+    </ChatProvider>
   )
 }
