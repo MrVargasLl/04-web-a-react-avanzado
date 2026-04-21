@@ -20,8 +20,7 @@ export const App = () => {
   // Estado que guarda la respuesta de gemma
   const [response, setResponse] = useState('')
 
-  const [state, dispatch] = useReducer(chatReducer, initialState)
-
+ 
   const handlePregunta = async (data) => {
     console.log(data)
 
