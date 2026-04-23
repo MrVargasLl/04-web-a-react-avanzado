@@ -36,6 +36,26 @@ users.push(newUser)
 res.status(201).json(newUser)
 } )
 
+app.delete("/users/:id", (req, res) => {
+
+    const id = parseInt( req.params.id )
+
+    const index = users.findIndex( u => u.id === id )
+
+    if( index === -1 ){
+        return res.status(404).json({message: "Usuario no encontrado"})
+        }
+
+    const deleted = users.splice(index,1)
+    
+    res.json( deleted[0] )
+
+
+
+
+
+})
+
 
 
 
