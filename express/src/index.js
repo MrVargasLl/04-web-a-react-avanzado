@@ -11,11 +11,31 @@ app.use(logger)
 app.use(express.json())
 
 
+
 //Crear una ruta básica (endpoint) en la raíz que corresponde al home //post enviar  informacion
 
 app.get( "/users", (req, res) => {
     res.json(users)
 })
+
+app.post( "/users", (req, res) => {
+    const { name } = req.body
+
+
+if(!name){
+    return res.status(400).json({message: "El nombre es obligatorio"})
+}
+
+
+const newUser = {
+    id: users.length + 1,
+    name
+}
+
+users.push(newUser)
+res.status(201).json(newUser)
+} )
+
 
 
 
