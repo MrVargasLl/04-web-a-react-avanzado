@@ -9,7 +9,7 @@
     },
  */
 
-  /*   //Variables de entorno
+/*   //Variables de entorno
 console.log(process.env.PORT)
 console.log(process.env.HELLO) */
 /* console.log(infoPeliculas); */
@@ -17,33 +17,48 @@ console.log(process.env.HELLO) */
 import { config } from 'dotenv'
 import express from 'express'
 import { infoPeliculas } from './peliculas.js'
-config() 
+config()
 
 const app = express()
+app.use(express.json())
 
+//Ruta raiz
 app.get("/", (req, res) => {
     res.send("Servidor de express corriendo...")
 })
+
+//Recursos generales
 
 app.get("/api/peliculas", (req, res) => {
     res.send(infoPeliculas)
 })
 
 //localhost:5000/api/peliculas?year=2023?dire
+
 /* Accion */
 
 app.get("/api/peliculas/accion", (req, res) => {
     res.send(infoPeliculas.accion)
-}) 
+})
 
-app.get("/api/peliculas/accion/:titulo", (req, res) => {
+/* Drama */
 
-    const titulo = req.params.titulo
-    const resultados = infoPeliculas.accion.filter( pelicula => pelicula.titulo === titulo )
+app.get("/api/peliculas/drama", (req, res) => {
+    res.send(infoPeliculas.drama)
+})
+
+//Rutas mas especificas
+app.get("/api/peliculas/accion/titulo/:titulo/:year", (req, res) => {
+
+    const { titulo, year } = req.params
+
+    const resultados = infoPeliculas.accion.filter(
+        pelicula => pelicula.titulo === titulo && pelicula.year === Number(year)
+    )
 
     if (resultados.length === 0) {
-        return res.status(404).send(`No se encontraron resultados para ${titulo}`)
-}
+        return res.status(404).send(`No se encontraron resultados para ${titulo} y ${year}`)
+    }
 
     res.send(resultados)
 })
@@ -55,45 +70,72 @@ app.get("/api/peliculas/accion/year/:year", (req, res) => {
     const resultados = infoPeliculas.accion.filter(pelicula => pelicula.year === year)
 
     if (resultados.length === 0) {
-    return res.status(404).send(`No se encontraron resultados de ${year}`)
+        return res.status(404).send(`No se encontraron resultados de ${year}`)
     }
 
     res.send(resultados)
 })
 
-app.get("/api/peliculas/accion/titulo/:titulo/:year", (req, res) => {
+//Parámetros query:
 
-  const { titulo, year } = req.params
+// http://localhost:5000/api/peliculas/accion/titulo?ordenar=year
 
-  const resultados = infoPeliculas.accion.filter(
-    pelicula => pelicula.titulo === titulo && pelicula.year === Number(year)
-  )
+// http://localhost:5000/api/peliculas/accion/pais/colombia?ordenar=year
+app.get("/api/peliculas/accion/pais/:pais", (req, res) => {
 
-  if (resultados.length === 0) {
-    return res.status(404).send(`No se encontraron resultados para ${titulo} y ${year}`)
-  }
+    const pais = req.params.pais
+    const resultados = infoPeliculas.accion.filter(pelicula => pelicula.pais === pais)
 
-  res.send(resultados)
+    if (req.query.ordenar === "year") {
+    return res.send(resultados.sort((a, b) => b.year - a.year))
+}
+
+res.send(resultados)
+
+
 })
 
-/* Drama*/
+app.get("/api/peliculas/accion/:titulo", (req, res) => {
 
-app.get("/api/peliculas/drama", (req, res) => {
-    res.send(infoPeliculas.drama)
+    const titulo = req.params.titulo
+    const resultados = infoPeliculas.accion.filter(pelicula => pelicula.titulo === titulo)
+
+    if (resultados.length === 0) {
+        return res.status(404).send(`No se encontraron resultados para ${titulo}`)
+    }
+
+
+    console.log(req.query.ordenar)
+    res.send(resultados)
 })
 
 app.get("/api/peliculas/drama/:titulo", (req, res) => {
 
     const titulo = req.params.titulo
-    const resultados = infoPeliculas.drama.filter( pelicula => pelicula.titulo === titulo )
+    const resultados = infoPeliculas.drama.filter(pelicula => pelicula.titulo === titulo)
 
     if (resultados.length === 0) {
         return res.status(404).send(`No se encontraron resultados para ${titulo}`)
-}
+    }
 
     res.send(resultados)
 })
 
+
+/* POST */
+
+app.post("/api/peliculas", (req, res) => {
+
+    const nuevaPelicula = req.body
+
+    console.log("Película recibida: ", nuevaPelicula)
+
+    res.status(201).send({
+    mensaje: "Película recibida con éxito",
+    datos: nuevaPelicula
+    })
+
+})
 
 const PORT = process.env.PORT || 5000
 

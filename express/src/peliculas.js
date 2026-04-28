@@ -5,7 +5,7 @@ export const infoPeliculas = {
             titulo: "Misión Imposible",
             director: "Christopher McQuarrie",
             vistas: "500000",
-            year: 2015,
+            year: 2010,
             pais: "usa",
         },
         {
@@ -13,7 +13,7 @@ export const infoPeliculas = {
             titulo: "John Wick",
             director: "Chad Stahelski",
             vistas: "800000",
-            year: 2014,
+            year: 1914,
             pais: "usa",
         },
         {
