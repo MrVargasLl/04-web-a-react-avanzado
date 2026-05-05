@@ -1,6 +1,8 @@
 import express from 'express'
 import cors from 'cors'
 import { generateFromOllama } from './ollamaService.js'
+import db from './db.js'
+
 
 const app = express()
 
@@ -13,6 +15,23 @@ app.use(express.json())
 app.get("/", (req, res) => {
     res.send("Hola Ollama ")
 })
+
+
+//GET: Obtener mensajes
+app.get( "/api/messages", async (req, res) => {
+    await db.read()
+    res.json(db.data.messages)
+    res.send("Mostrando mensajes...")
+
+} )
+
+/* //GET: Obtener mensajes
+app.get( "/api/messages", async (req, res) => {
+  await db.read()
+  res.json(db.data.messages)
+}) */
+
+
 
 /*
 {

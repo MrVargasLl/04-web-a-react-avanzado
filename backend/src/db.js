@@ -1,9 +1,14 @@
+import { log } from 'console'
 import { Low } from 'lowdb'
 import { JSONFile } from 'lowdb/node'
 import { join } from 'path'
 import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath( import.meta.url )
+
+console.log(__filename);
+
+
 const __dirname = join(__filename, "..")
 
 const file = join(__dirname, "db.json")
