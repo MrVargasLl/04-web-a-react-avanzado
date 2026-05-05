@@ -4,7 +4,7 @@ import fs from 'fs'
 
 dotenv.config()
 const app = express()
-
+app.use(express.json())
 const PORT = process.env.PORT
 
 //Función que lee la información de peliculas.json
@@ -25,6 +25,29 @@ const writeData = (data) => {
     console.error(error)
     }
 }
+
+//POST
+app.post("/peliculas", (req, res) => {
+
+  const data = readData()
+  const body = req.body
+
+  const newMovie = {
+    id: data.accion.length + 1,
+    ...body
+  }
+
+  data.accion.push(newMovie)
+
+
+  writeData(data)
+
+  res.json(newMovie)
+
+})
+
+
+
 
 
 
