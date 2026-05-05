@@ -65,6 +65,20 @@ app.put("/peliculas/:id", (req, res) => {
 
 })
 
+//DELETE
+app.delete("/peliculas/:id", (req, res) => {
+    const data = readData()
+    const id = req.params.id
+
+    const peliculaIndex = data.accion.findIndex(movies => movies.id === id)
+
+    data.accion.splice(peliculaIndex -1, 1)
+
+    writeData(data)
+
+    res.json({ message: "Película eliminada con éxito" })
+
+})
 
 
 
