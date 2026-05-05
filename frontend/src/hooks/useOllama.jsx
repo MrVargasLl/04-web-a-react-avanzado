@@ -6,7 +6,7 @@ export const useOllama = () => {
 
   const sendMessage = async (userPrompt) => {
     try {
-      const res = await axios.post('http://localhost:11434/api/generate', {
+      const res = await axios.post('http://localhost:3001/api/chat', {
         model: 'gemma2',
         prompt: userPrompt,
         stream: false,
