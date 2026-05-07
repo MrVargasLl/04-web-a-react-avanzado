@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useReducer, useState } from 'react'
+import { useState } from 'react'
 
 export const useOllama = () => {
   const [loading, setLoading] = useState(false)

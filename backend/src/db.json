@@ -1,3 +1,40 @@
 {
-  "messages": []
+  "messages": [
+    {
+      "id": 1778118848060,
+      "text": "hola",
+      "sender": "user",
+      "timestamp": "2026-05-07T01:54:08.060Z"
+    },
+    {
+      "id": 1778120105472,
+      "text": "Hello",
+      "sender": "user",
+      "timestamp": "2026-05-07T02:15:05.472Z"
+    },
+    {
+      "id": 1778120117893,
+      "text": "Hola",
+      "sender": "user",
+      "timestamp": "2026-05-07T02:15:17.893Z"
+    },
+    {
+      "id": 1778120141147,
+      "text": "¡Hola! 👋 ¿Cómo puedo ayudarte hoy? 😄",
+      "sender": "bot",
+      "timestamp": "2026-05-07T02:15:41.147Z"
+    },
+    {
+      "id": 1778120169512,
+      "text": "Hola",
+      "sender": "user",
+      "timestamp": "2026-05-07T02:16:09.512Z"
+    },
+    {
+      "id": 1778120178307,
+      "text": "¡Hola! ¿Cómo puedo ayudarte hoy? 😊",
+      "sender": "bot",
+      "timestamp": "2026-05-07T02:16:18.307Z"
+    }
+  ]
 }
