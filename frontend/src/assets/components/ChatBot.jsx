@@ -71,7 +71,7 @@ export const ChatBot = () => {
       dispatch({ type: 'SET_LOADING', payload: false })
     }
   }
-
+  //
   return (
     <>
       <div className='min-h-screen bg-gray-950 flex items-center justify-center p-4'>
