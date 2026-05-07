@@ -39,23 +39,13 @@ app.get( "/api/messages", async (req, res) => {
 }
 */
 
-app.post("/api/chat", async (req, res) => {
+//POST: Agrega nuevos mensajes    "Agrega": Unknown word.
+app.post( "/api/messages", async (req, res) => {
 
-    const { prompt } = req.body
-
-    try {
-        const response = await generateFromOllama(prompt)
-        res.json({ response })
-    } catch (error) {
-        console.error("Error en el servidor:", error.message)
-        res.status(500).json({ error: "Error procesando la solicitud" })
-    }
+    const { text, sender } = req.body
 
 
-
-
-})
-
+} )
 
 
 app.listen(PORT, () => {
